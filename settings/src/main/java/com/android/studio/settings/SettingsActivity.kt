@@ -169,10 +169,11 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
                 // Set the summary to reflect the new value.
                 preference.setSummary(
-                        if (index >= 0)
-                            listPreference.entries[index]
-                        else
-                            null)
+                    if (index >= 0)
+                        listPreference.entries[index]
+                    else
+                        null
+                )
 
             } else if (preference is RingtonePreference) {
                 // For ringtone preferences, look up the correct display value
@@ -183,7 +184,8 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
                 } else {
                     val ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue))
+                        preference.getContext(), Uri.parse(stringValue)
+                    )
 
                     if (ringtone == null) {
                         // Clear the summary if there was a lookup error.
@@ -227,10 +229,12 @@ class SettingsActivity : AppCompatPreferenceActivity() {
 
             // Trigger the listener immediately with the preference's
             // current value.
-            sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
-                    PreferenceManager
-                            .getDefaultSharedPreferences(preference.context)
-                            .getString(preference.key, ""))
+            sBindPreferenceSummaryToValueListener.onPreferenceChange(
+                preference,
+                PreferenceManager
+                    .getDefaultSharedPreferences(preference.context)
+                    .getString(preference.key, "")
+            )
         }
     }
 }
