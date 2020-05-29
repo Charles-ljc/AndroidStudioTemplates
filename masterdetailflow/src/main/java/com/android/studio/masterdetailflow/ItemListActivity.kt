@@ -13,7 +13,6 @@ import android.widget.TextView
 import com.android.studio.masterdetailflow.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list_content.view.*
-
 import kotlinx.android.synthetic.main.item_list.*
 
 /**
@@ -30,7 +29,7 @@ class ItemListActivity : AppCompatActivity() {
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
      */
-    private var mTwoPane: Boolean = false
+    private var twoPane: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,32 +48,33 @@ class ItemListActivity : AppCompatActivity() {
             // large-screen layouts (res/values-w900dp).
             // If this view is present, then the
             // activity should be in two-pane mode.
-            mTwoPane = true
+            twoPane = true
         }
 
         setupRecyclerView(item_list)
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, mTwoPane)
+        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
     }
 
-    class SimpleItemRecyclerViewAdapter(private val mParentActivity: ItemListActivity,
-                                        private val mValues: List<DummyContent.DummyItem>,
-                                        private val mTwoPane: Boolean) :
+    class SimpleItemRecyclerViewAdapter(private val parentActivity: ItemListActivity,
+                                        private val values: List<DummyContent.DummyItem>,
+                                        private val twoPane: Boolean) :
             RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
-        private val mOnClickListener: View.OnClickListener
+        private val onClickListener: View.OnClickListener
 
         init {
-            mOnClickListener = View.OnClickListener { v ->
+            onClickListener = View.OnClickListener { v ->
                 val item = v.tag as DummyContent.DummyItem
-                if (mTwoPane) {
+                if (twoPane) {
                     val fragment = ItemDetailFragment().apply {
-                        arguments = Bundle()
-                        arguments.putString(ItemDetailFragment.ARG_ITEM_ID, item.id)
+                        arguments = Bundle().apply {
+                            putString(ItemDetailFragment.ARG_ITEM_ID, item.id)
+                        }
                     }
-                    mParentActivity.supportFragmentManager
+                    parentActivity.supportFragmentManager
                             .beginTransaction()
                             .replace(R.id.item_detail_container, fragment)
                             .commit()
@@ -94,23 +94,21 @@ class ItemListActivity : AppCompatActivity() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val item = mValues[position]
-            holder.mIdView.text = item.id
-            holder.mContentView.text = item.content
+            val item = values[position]
+            holder.idView.text = item.id
+            holder.contentView.text = item.content
 
             with(holder.itemView) {
                 tag = item
-                setOnClickListener(mOnClickListener)
+                setOnClickListener(onClickListener)
             }
         }
 
-        override fun getItemCount(): Int {
-            return mValues.size
-        }
+        override fun getItemCount() = values.size
 
-        inner class ViewHolder(mView: View) : RecyclerView.ViewHolder(mView) {
-            val mIdView: TextView = mView.id_text
-            val mContentView: TextView = mView.content
+        inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+            val idView: TextView = view.id_text
+            val contentView: TextView = view.content
         }
     }
 }

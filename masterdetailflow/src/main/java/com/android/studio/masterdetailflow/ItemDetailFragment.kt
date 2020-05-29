@@ -20,18 +20,18 @@ class ItemDetailFragment : Fragment() {
     /**
      * The dummy content this fragment is presenting.
      */
-    private var mItem: DummyContent.DummyItem? = null
+    private var item: DummyContent.DummyItem? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (arguments.containsKey(ARG_ITEM_ID)) {
-            // Load the dummy content specified by the fragment
-            // arguments. In a real-world scenario, use a Loader
-            // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP[arguments.getString(ARG_ITEM_ID)]
-            mItem?.let {
-                activity.toolbar_layout?.title = it.content
+        arguments?.let {
+            if (it.containsKey(ARG_ITEM_ID)) {
+                // Load the dummy content specified by the fragment
+                // arguments. In a real-world scenario, use a Loader
+                // to load content from a content provider.
+                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
+                activity?.toolbar_layout?.title = item?.content
             }
         }
     }
@@ -41,7 +41,7 @@ class ItemDetailFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.item_detail, container, false)
 
         // Show the dummy content as text in a TextView.
-        mItem?.let {
+        item?.let {
             rootView.item_detail.text = it.details
         }
 
