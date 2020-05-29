@@ -1,1 +1,1 @@
-include ':app', ':basic', ':bottomnavigation', ':empty', ':fullscreen', ':login', ':masterdetailflow', ':navigationdrawer', ':scrolling', ':settings', ':tabbed'
+include ':app', ':basic', ':bottomnavigation', ':empty', ':fullscreen', ':login', ':masterdetailflow', ':navigationdrawer', ':scrolling', ':settings', ':tabbed', ':viewmodel'
