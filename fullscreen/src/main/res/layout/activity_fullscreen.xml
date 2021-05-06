@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#0099cc"
+    android:background="?attr/fullscreenBackgroundColor"
+    android:theme="@style/ThemeOverlay.AndroidStudioTemplates.FullscreenContainer"
     tools:context=".FullscreenActivity">
 
     <!-- The primary full-screen view. This can be replaced with whatever view
@@ -16,7 +17,7 @@
         android:gravity="center"
         android:keepScreenOn="true"
         android:text="@string/dummy_content"
-        android:textColor="#33b5e5"
+        android:textColor="?attr/fullscreenTextColor"
         android:textSize="50sp"
         android:textStyle="bold" />
 
@@ -29,17 +30,16 @@
 
         <LinearLayout
             android:id="@+id/fullscreen_content_controls"
-            style="?metaButtonBarStyle"
+            style="@style/Widget.Theme.AndroidStudioTemplates.ButtonBar.Fullscreen"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
-            android:background="@color/black_overlay"
             android:orientation="horizontal"
             tools:ignore="UselessParent">
 
             <Button
                 android:id="@+id/dummy_button"
-                style="?metaButtonBarButtonStyle"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
