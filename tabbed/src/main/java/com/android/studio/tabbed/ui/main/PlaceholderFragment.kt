@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.android.studio.tabbed.R
+import com.android.studio.tabbed.databinding.FragmentMainBinding
 
 /**
  * A placeholder fragment containing a simple view.
@@ -16,6 +17,11 @@ import com.android.studio.tabbed.R
 class PlaceholderFragment : Fragment() {
 
     private lateinit var pageViewModel: PageViewModel
+    private var _binding: FragmentMainBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,9 +34,12 @@ class PlaceholderFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val root = inflater.inflate(R.layout.fragment_main, container, false)
-        val textView: TextView = root.findViewById(R.id.section_label)
-        pageViewModel.text.observe(this, Observer<String> {
+
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        val root = binding.root
+
+        val textView: TextView = binding.sectionLabel
+        pageViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
@@ -55,5 +64,10 @@ class PlaceholderFragment : Fragment() {
                 }
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

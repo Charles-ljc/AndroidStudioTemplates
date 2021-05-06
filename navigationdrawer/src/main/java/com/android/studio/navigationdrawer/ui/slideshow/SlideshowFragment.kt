@@ -9,10 +9,16 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.android.studio.navigationdrawer.R
+import com.android.studio.navigationdrawer.databinding.FragmentSlideshowBinding
 
 class SlideshowFragment : Fragment() {
 
     private lateinit var slideshowViewModel: SlideshowViewModel
+    private var _binding: FragmentSlideshowBinding? = null
+
+    // This property is only valid between onCreateView and
+    // onDestroyView.
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,11 +27,19 @@ class SlideshowFragment : Fragment() {
     ): View? {
         slideshowViewModel =
             ViewModelProvider(this).get(SlideshowViewModel::class.java)
-        val root = inflater.inflate(R.layout.fragment_slideshow, container, false)
-        val textView: TextView = root.findViewById(R.id.text_slideshow)
+
+        _binding = FragmentSlideshowBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+        val textView: TextView = binding.textSlideshow
         slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
             textView.text = it
         })
         return root
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
