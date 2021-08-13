@@ -1,6 +1,8 @@
 package com.android.studio.primarydetailflow
 
+import android.content.ClipData
 import android.os.Bundle
+import android.view.DragEvent
 import androidx.fragment.app.Fragment
 import com.google.android.material.appbar.CollapsingToolbarLayout
 import android.view.LayoutInflater
@@ -24,12 +26,23 @@ class ItemDetailFragment : Fragment() {
     private var item: PlaceholderContent.PlaceholderItem? = null
 
     lateinit var itemDetailTextView: TextView
+    private var toolbarLayout: CollapsingToolbarLayout? = null
 
     private var _binding: FragmentItemDetailBinding? = null
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
+
+    private val dragListener = View.OnDragListener { v, event ->
+        if (event.action == DragEvent.ACTION_DROP) {
+            val clipDataItem: ClipData.Item = event.clipData.getItemAt(0)
+            val dragData = clipDataItem.text
+            item = PlaceholderContent.ITEM_MAP[dragData]
+            updateContent()
+        }
+        true
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,15 +65,22 @@ class ItemDetailFragment : Fragment() {
         _binding = FragmentItemDetailBinding.inflate(inflater, container, false)
         val rootView = binding.root
 
-        binding.toolbarLayout?.title = item?.content
-
+        toolbarLayout = binding.toolbarLayout
         itemDetailTextView = binding.itemDetail
+
+        updateContent()
+        rootView.setOnDragListener(dragListener)
+
+        return rootView
+    }
+
+    private fun updateContent() {
+        toolbarLayout?.title = item?.content
+
         // Show the placeholder content as text in a TextView.
         item?.let {
             itemDetailTextView.text = it.details
         }
-
-        return rootView
     }
 
     companion object {

@@ -1,5 +1,7 @@
 package com.android.studio.primarydetailflow
 
+import android.content.ClipData
+import android.content.ClipDescription
 import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
@@ -153,6 +155,33 @@ class ItemListFragment : Fragment() {
                 setOnClickListener(onClickListener)
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     setOnContextClickListener(onContextClickListener)
+                }
+
+                setOnLongClickListener { v ->
+                    // Setting the item id as the clip data so that the drop target is able to
+                    // identify the id of the content
+                    val clipItem = ClipData.Item(item.id)
+                    val dragData = ClipData(
+                        v.tag as? CharSequence,
+                        arrayOf(ClipDescription.MIMETYPE_TEXT_PLAIN),
+                        clipItem
+                    )
+
+                    if (Build.VERSION.SDK_INT >= 24) {
+                        v.startDragAndDrop(
+                            dragData,
+                            View.DragShadowBuilder(v),
+                            null,
+                            0
+                        )
+                    } else {
+                        v.startDrag(
+                            dragData,
+                            View.DragShadowBuilder(v),
+                            null,
+                            0
+                        )
+                    }
                 }
             }
         }

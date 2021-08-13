@@ -11,6 +11,7 @@
         android:theme="@style/Theme.AndroidStudioTemplates">
         <activity
             android:name=".SettingsActivity"
+            android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
