@@ -82,58 +82,22 @@ class ItemListFragment : Fragment() {
         // layout configuration (layout, layout-sw600dp)
         val itemDetailFragmentContainer: View? = view.findViewById(R.id.item_detail_nav_container)
 
-        /** Click Listener to trigger navigation based on if you have
-         * a single pane layout or two pane layout
-         */
-        val onClickListener = View.OnClickListener { itemView ->
-            val item = itemView.tag as PlaceholderContent.PlaceholderItem
-            val bundle = Bundle()
-            bundle.putString(
-                ItemDetailFragment.ARG_ITEM_ID,
-                item.id
-            )
-            if (itemDetailFragmentContainer != null) {
-                itemDetailFragmentContainer.findNavController()
-                    .navigate(R.id.fragment_item_detail, bundle)
-            } else {
-                itemView.findNavController().navigate(R.id.show_item_detail, bundle)
-            }
-        }
-
-        /**
-         * Context click listener to handle Right click events
-         * from mice and trackpad input to provide a more native
-         * experience on larger screen devices
-         */
-        val onContextClickListener = View.OnContextClickListener { v ->
-            val item = v.tag as PlaceholderContent.PlaceholderItem
-            Toast.makeText(
-                v.context,
-                "Context click of item " + item.id,
-                Toast.LENGTH_LONG
-            ).show()
-            true
-        }
-        setupRecyclerView(recyclerView, onClickListener, onContextClickListener)
+        setupRecyclerView(recyclerView, itemDetailFragmentContainer)
     }
 
     private fun setupRecyclerView(
         recyclerView: RecyclerView,
-        onClickListener: View.OnClickListener,
-        onContextClickListener: View.OnContextClickListener
+        itemDetailFragmentContainer: View?
     ) {
 
         recyclerView.adapter = SimpleItemRecyclerViewAdapter(
-            PlaceholderContent.ITEMS,
-            onClickListener,
-            onContextClickListener
+            PlaceholderContent.ITEMS, itemDetailFragmentContainer
         )
     }
 
     class SimpleItemRecyclerViewAdapter(
         private val values: List<PlaceholderContent.PlaceholderItem>,
-        private val onClickListener: View.OnClickListener,
-        private val onContextClickListener: View.OnContextClickListener
+        private val itemDetailFragmentContainer: View?
     ) :
         RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
 
@@ -152,9 +116,35 @@ class ItemListFragment : Fragment() {
 
             with(holder.itemView) {
                 tag = item
-                setOnClickListener(onClickListener)
+                setOnClickListener { itemView ->
+                    val item = itemView.tag as PlaceholderContent.PlaceholderItem
+                    val bundle = Bundle()
+                    bundle.putString(
+                        ItemDetailFragment.ARG_ITEM_ID,
+                        item.id
+                    )
+                    if (itemDetailFragmentContainer != null) {
+                        itemDetailFragmentContainer.findNavController()
+                            .navigate(R.id.fragment_item_detail, bundle)
+                    } else {
+                        itemView.findNavController().navigate(R.id.show_item_detail, bundle)
+                    }
+                }
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    setOnContextClickListener(onContextClickListener)
+                    /**
+                     * Context click listener to handle Right click events
+                     * from mice and trackpad input to provide a more native
+                     * experience on larger screen devices
+                     */
+                    setOnContextClickListener { v ->
+                        val item = v.tag as PlaceholderContent.PlaceholderItem
+                        Toast.makeText(
+                            v.context,
+                            "Context click of item " + item.id,
+                            Toast.LENGTH_LONG
+                        ).show()
+                        true
+                    }
                 }
 
                 setOnLongClickListener { v ->

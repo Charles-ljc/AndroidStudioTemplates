@@ -24,7 +24,6 @@ import com.android.studio.responsive.databinding.ItemTransformBinding
  */
 class TransformFragment : Fragment() {
 
-    private lateinit var transformViewModel: TransformViewModel
     private var _binding: FragmentTransformBinding? = null
 
     // This property is only valid between onCreateView and
@@ -36,16 +35,16 @@ class TransformFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        transformViewModel = ViewModelProvider(this).get(TransformViewModel::class.java)
+        val transformViewModel = ViewModelProvider(this).get(TransformViewModel::class.java)
         _binding = FragmentTransformBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         val recyclerView = binding.recyclerviewTransform
         val adapter = TransformAdapter()
         recyclerView.adapter = adapter
-        transformViewModel.texts.observe(viewLifecycleOwner, {
+        transformViewModel.texts.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-        })
+        }
         return root
     }
 
