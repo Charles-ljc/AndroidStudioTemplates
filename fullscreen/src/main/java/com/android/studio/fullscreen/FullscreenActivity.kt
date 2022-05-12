@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowInsets
@@ -21,7 +22,7 @@ class FullscreenActivity : AppCompatActivity() {
     private lateinit var binding: ActivityFullscreenBinding
     private lateinit var fullscreenContent: TextView
     private lateinit var fullscreenContentControls: LinearLayout
-    private val hideHandler = Handler()
+    private val hideHandler = Handler(Looper.myLooper()!!)
 
     @SuppressLint("InlinedApi")
     private val hidePart2Runnable = Runnable {

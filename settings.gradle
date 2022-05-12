@@ -15,9 +15,11 @@ dependencyResolutionManagement {
 rootProject.name = "AndroidStudioTemplates"
 include ':app'
 include ':basic'
+include ':basicmaterial3'
 include ':bottomnavigation'
 include ':empty'
 include ':emptycompose'
+include ':emptycomposematerial3'
 include ':fullscreen'
 include ':login'
 include ':navigationdrawer'
