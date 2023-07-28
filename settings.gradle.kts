@@ -13,17 +13,17 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "AndroidStudioTemplates"
-include ':app'
-include ':basic'
-include ':bottomnavigation'
-include ':empty'
-include ':emptycompose'
-include ':fullscreen'
-include ':login'
-include ':navigationdrawer'
-include ':primarydetailflow'
-include ':responsive'
-include ':scrolling'
-include ':settings'
-include ':tabbed'
-include ':viewmodel'
+include(":app")
+include(":basic")
+include(":bottomnavigation")
+include(":empty")
+include(":emptycompose")
+include(":fullscreen")
+include(":login")
+include(":navigationdrawer")
+include(":primarydetailflow")
+include(":responsive")
+include(":scrolling")
+include(":settings")
+include(":tabbed")
+include(":viewmodel")
