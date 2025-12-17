@@ -5,11 +5,13 @@ plugins {
 
 android {
     namespace = "com.android.studio.login"
-    compileSdk = 36
+    compileSdk {
+        version = release(36)
+    }
 
     defaultConfig {
         applicationId = "com.android.studio.login"
-        minSdk = 16
+        minSdk = 21
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
